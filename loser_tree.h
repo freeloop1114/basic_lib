@@ -27,7 +27,7 @@ public:
 private:
     bool createIndexNode(const vector<TreeNode*>& input,
                         vector<TreeNode*>* output);
-
+    void clearIndexNode(const vector<TreeNode*>& nodes);
 private:
     vector<Leaf*> m_leaf_nodes;
     TreeNode* m_root;
@@ -49,8 +49,24 @@ bool LoserTree<Leaf, Value>::createTree(
         tree_nodes.push_back(node);    
     }
 
-    while ()
+    do {
+        vector<TreeNode*> output_nodes;
+        if (!this->createIndexNode(tree_nodes, output_nodes)) {
+            this->clearIndexNode(tree_nodes);
+            return false;
+        }
+        if (output_nodes.empty()) {
+            this->clearIndexNode(tree_nodes);
+            return false;
+        }
+        // if output size is 1, means this is root node
+        if (1 == output_nodes.size()) {
+            m_root = output_nodes[0]; 
+            break;
+        }
+    } while (true);
 }
+
 
 template<class Leaf, class Value>
 bool LoserTree<Leaf, Value>::createIndexNode(
@@ -75,6 +91,13 @@ bool LoserTree<Leaf, Value>::createIndexNode(
     }
 
     return true;
+}
+
+template<class Leaf, class Value>
+void LoserTree<Leaf, Value>::clearIndexNode(
+                    const vector<TreeNode*>& nodes)
+{
+    
 }
 
 
